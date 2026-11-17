@@ -60,3 +60,9 @@ body {
     width: 180px;
     height: 300px;
 }
+
+/* Efeito visual da Q5 */
+.emprestado {
+    opacity: 0.6;
+    background-color: #eee;
+}
