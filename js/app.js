@@ -14,7 +14,7 @@ const livros = [
   { id: 4, nome: 'O Hobbit', autor: 'J. R. R. Tolkien', categoria: 'Fantasia',
     descricao: 'Bilbo Bolseiro parte numa aventura inesperada ao lado de anões e de um mago.',
     nota: 9.0, disponivel: true },
-    {id: 5, nome: 'Dom Casmurro', autor: 'Machado de Assis', categoria: 'Romance',
+  { id: 5, nome: 'Dom Casmurro', autor: 'Machado de Assis', categoria: 'Romance',
     descricao: 'Bentinho relembra o amor por Capitu e a dúvida que transformou sua vida.',
     nota: 9.2, disponivel: true },
   { id: 6, nome: '1984', autor: 'George Orwell', categoria: 'Ficção',
@@ -119,3 +119,7 @@ function criarBotaoDisponibilidade(item, card) {
 
   return botao;
 }
+
+// Chamada inicial
+preencherCategorias();
+atualizarTela();
