@@ -44,3 +44,78 @@ const catalogo = {
     return maior + 1;
   }
 };
+
+// [R3] Preenche o <select> de categorias
+function preencherCategorias() {
+  const select = document.getElementById('filtro-categoria');
+  for (let i = 0; i < categorias.length; i++) {
+    const opcao = document.createElement('option');
+    opcao.value = categorias[i];
+    opcao.textContent = categorias[i];
+    select.appendChild(opcao);
+  }
+}
+
+// [R3] Filtro: busca + categoria juntas, sem filter
+function filtrarItens() {
+  const termo = document.getElementById('busca').value.toLowerCase();
+  const categoria = document.getElementById('filtro-categoria').value;
+  const resultado = [];
+
+  for (let i = 0; i < catalogo.itens.length; i++) {
+    const livro = catalogo.itens[i];
+
+    const achouNome  = livro.nome.toLowerCase().indexOf(termo) !== -1;
+    const achouAutor = livro.autor.toLowerCase().indexOf(termo) !== -1;
+    const bateCategoria = (categoria === 'Todas') || (livro.categoria === categoria);
+
+    if ((achouNome || achouAutor) && bateCategoria) {
+      resultado.push(livro);
+    }
+  }
+  return resultado;
+}
+
+// [R3] Redesenha tudo a cada mudança
+function atualizarTela() {
+  const lista = filtrarItens();
+  renderizar(lista);       
+  atualizarPainel(lista);  
+}
+
+// [R3]
+const campoBusca = document.getElementById('busca');
+
+campoBusca.addEventListener('input', atualizarTela);
+document.getElementById('filtro-categoria').addEventListener('change', atualizarTela);
+
+campoBusca.addEventListener('keydown', function (event) {
+  if (event.key === 'Escape') {
+    campoBusca.value = '';
+    atualizarTela();
+  }
+});
+
+
+// [R5]
+function textoDoBotao(item) {
+  return item.disponivel ? 'Emprestar' : 'Devolver';
+}
+
+function criarBotaoDisponibilidade(item, card) {
+  const botao = document.createElement('button');
+  botao.textContent = textoDoBotao(item);
+
+  if (!item.disponivel) {
+    card.classList.add('emprestado');   // estado inicial
+  }
+
+  botao.addEventListener('click', function () {
+    item.disponivel = !item.disponivel;          // alterna o dado
+    card.classList.toggle('emprestado');         // alterna o visual
+    botao.textContent = textoDoBotao(item);      // muda o texto
+    atualizarPainel(filtrarItens());             // atualiza o painel
+  });
+
+  return botao;
+}
